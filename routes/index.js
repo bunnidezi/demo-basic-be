@@ -1,10 +1,15 @@
 const express = require("express");
-const fs = require("fs");
+const sendResponse = require("../helpers/sendReponse.js");
+
 const router = express.Router();
 
 /* GET home page. */
+
 router.get("/", function (req, res, next) {
-  return res.status(200).send("/api");
+  return sendResponse(200, {}, "home", res, next);
+});
+router.get("/haha", function (req, res, next) {
+  return sendResponse(200, {}, "haha", res, next);
 });
 
 const studentRoutes = require("./student.api.js");
