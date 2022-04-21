@@ -79,3 +79,11 @@ utilsHelper.generateRandomHexString = (len) => {
     .toUpperCase(); // return required number of characters
 };
 ```
+
+## Advance front-end
+
+- User could use a React app
+- User could see list of student
+- User could use a form to create a student entry
+
+- Rocket: Student could login with the right email and password. Hint: simple login, no accesstoken
