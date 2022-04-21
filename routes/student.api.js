@@ -67,6 +67,45 @@ router.post("/", function (req, res, next) {
   }
 });
 
+router.put("/", function (req, res, next) {
+  const { email, password, newPassword } = req.body;
+  try {
+    if (!email || !password || !newPassword) {
+      const error = new Error("Missing info");
+      error.statusCode = 400;
+      throw error;
+    }
+    if (password === newPassword) {
+      const error = new Error("New password should be different");
+      error.statusCode = 400;
+      throw error;
+    }
+    const db = loadData();
+    const found = db.find((el) => el.email === email);
+    if (!found) {
+      const error = new Error("User is not found");
+      error.statusCode = 400;
+      throw error;
+    }
+    if (found.password !== password) {
+      const error = new Error("Password not match");
+      error.statusCode = 400;
+      throw error;
+    }
+    let dataToSave = db.map((e) => {
+      if (e.email === email) {
+        e.password = newPassword;
+      }
+      return e;
+    });
+    dataToSave = JSON.stringify(dataToSave);
+    fs.writeFileSync("db.json", dataToSave);
+    return sendResponse(200, {}, "update success", res, next);
+  } catch (error) {
+    next(error);
+  }
+});
+
 /* GET students. */
 router.get("/:id", function (req, res, next) {
   const { id } = req.params;
