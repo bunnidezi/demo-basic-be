@@ -14,6 +14,11 @@ router.get("/", function (req, res, next) {
   return sendReponse(200, db, "Student list", res, next);
 });
 
+router.post("/", function (req, res, next) {
+  // const db = loadData();
+  return sendReponse(200, {}, "testing post", res, next);
+});
+
 /* GET students. */
 router.get("/:id", function (req, res, next) {
   const { id } = req.params;
