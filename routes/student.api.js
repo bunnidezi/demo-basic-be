@@ -1,7 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const fs = require("fs");
-const { sendResponse, generateRandomHexString } = require("../helpers/util");
+const {
+  sendResponse,
+  generateRandomHexString,
+  throwException,
+} = require("../helpers/util");
 /* GET students. */
 
 const loadData = () => {
@@ -10,18 +14,12 @@ const loadData = () => {
   return JSON.parse(db);
 };
 
-//pagination
-//limit number of data
-//page=x => ....->xxx
 router.get("/", function (req, res, next) {
-  //load
   let db = loadData();
   const limit = req.query.limit || 10;
   const page = req.query.page || 3;
   const offset = limit * (page - 1);
-  //filter by limit
   db = db.slice(offset, limit * page);
-
   return sendResponse(
     200,
     { data: db, number: db.length || 0 },
@@ -35,16 +33,12 @@ router.post("/", function (req, res, next) {
   try {
     const { name, email, password, age } = req.body;
     if (!name || !email || !password || !age) {
-      const error = new Error("Missing info");
-      error.statusCode = 400;
-      throw error;
+      throwException("Missing info", 400);
     }
     let dataToSave = loadData();
     const found = dataToSave.find((el) => el.email === email);
     if (found) {
-      const error = new Error("User is already existed");
-      error.statusCode = 400;
-      throw error;
+      throwException("User is already existed", 400);
     }
 
     const studentObj = {
@@ -55,12 +49,9 @@ router.post("/", function (req, res, next) {
       __v: 0,
       age: parseInt(age),
     };
-
     dataToSave.push(studentObj);
     dataToSave = JSON.stringify(dataToSave);
-
     fs.writeFileSync("db.json", dataToSave);
-
     return sendResponse(200, studentObj, "create student success", res, next);
   } catch (error) {
     next(error);
@@ -71,9 +62,7 @@ router.put("/", function (req, res, next) {
   const { email, password, newPassword } = req.body;
   try {
     if (!email || !password || !newPassword) {
-      const error = new Error("Missing info");
-      error.statusCode = 400;
-      throw error;
+      throwException("Missing info", 400);
     }
     if (password === newPassword) {
       const error = new Error("New password should be different");
@@ -83,9 +72,7 @@ router.put("/", function (req, res, next) {
     const db = loadData();
     const found = db.find((el) => el.email === email);
     if (!found) {
-      const error = new Error("User is not found");
-      error.statusCode = 400;
-      throw error;
+      throwException("User is not found", 400);
     }
     if (found.password !== password) {
       const error = new Error("Password not match");
@@ -98,9 +85,40 @@ router.put("/", function (req, res, next) {
       }
       return e;
     });
+
     dataToSave = JSON.stringify(dataToSave);
     fs.writeFileSync("db.json", dataToSave);
+
     return sendResponse(200, {}, "update success", res, next);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete("/", function (req, res, next) {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      const error = new Error("missing info");
+      error.statusCode = 400;
+      throw error;
+    }
+    let db = loadData();
+    const found = db.find((el) => el.email === email);
+    if (!found) {
+      const error = new Error("User is not found");
+      error.statusCode = 400;
+      throw error;
+    }
+    if (found.password !== password) {
+      const error = new Error("Password not match");
+      error.statusCode = 400;
+      throw error;
+    }
+    db = db.filter((e) => e.email !== email);
+    db = JSON.stringify(db);
+    fs.writeFileSync("db.json", db);
+    return sendResponse(200, {}, "delete success", res, next);
   } catch (error) {
     next(error);
   }

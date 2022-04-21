@@ -14,5 +14,10 @@ utilHelper.generateRandomHexString = (len) => {
     .slice(0, len)
     .toUpperCase(); // return required number of characters
 };
+utilHelper.throwException = (msg, status) => {
+  const err = new Error(msg);
+  err.statusCode = status;
+  throw err;
+};
 
 module.exports = utilHelper;
