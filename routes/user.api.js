@@ -1,19 +1,25 @@
 const express = require("express");
+const {
+  createUserByEmailPassword,
+  loginWithEmailPassword,
+} = require("../controllers/user.controllers");
 
 const router = express.Router();
-const data = { a: "a" };
-/* GET users. */
-router.get("/", function (req, res, next) {
-  console.log("here");
-  // const queries = req.query;
-  // console.log(queries);
-  return res.status(200).send({ data });
-});
 
-/* GET users. */
-router.get("/:id", function (req, res, next) {
-  // const params = req.params;
-  // console.log(params);
-  return res.status(200).send({ data });
-});
+/**
+ * @method: POST
+ * @access: public
+ * @description: Create user with email and password
+ * @constructor: req.body { UserModel}
+ */
+router.post("/create", createUserByEmailPassword);
+
+/**
+ * @method: POST
+ * @access: public
+ * @description: Login a user with email and password
+ * @constructor: req.body {email,password}
+ */
+router.post("/login", loginWithEmailPassword);
+
 module.exports = router;
