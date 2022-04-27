@@ -1,8 +1,6 @@
 const { throwException, sendResponse } = require("../helpers/util");
 const User = require("../model/User");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 const userController = {};
 userController.createUserByEmailPassword = async (req, res, next) => {
@@ -51,4 +49,54 @@ userController.loginWithEmailPassword = async (req, res, next) => {
   }
 };
 
+userController.getAllUsersList = async (req, res, next) => {
+  let { page, limit } = req.query;
+  page = parseInt(page) || 1;
+  limit = parseInt(limit) || 10;
+  const offset = limit * (page - 1);
+  const total = await User.countDocuments({});
+  const totalPages = Math.ceil(total / limit);
+
+  try {
+    const users = await User.find({}).skip(offset).limit(limit);
+    sendResponse(
+      200,
+      { users, total, totalPages },
+      "Get all users success",
+      res,
+      next
+    );
+  } catch (err) {
+    next(err);
+  }
+};
+
+userController.getSingleUserById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id);
+    if (!user) {
+      throwException(`User with ${id} not found`, 400);
+    }
+    sendResponse(200, user, "Get single user success", res, next);
+  } catch (error) {
+    next(error);
+  }
+};
+
+userController.deleteUserById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id);
+    if (!user) {
+      throwException(`User with ${id} not found`, 400);
+    }
+    //delete
+    await User.findByIdAndDelete(id);
+
+    sendResponse(200, {}, "Delete single user success", res, next);
+  } catch (error) {
+    next(error);
+  }
+};
 module.exports = userController;
