@@ -26,3 +26,11 @@ const createUser = async (numberOfUser) => {
   console.log("finish");
 };
 module.exports = createUser;
+
+// const run = () => {
+//   setTimeout(() => console.log("D"), 0); //macro so after
+//   Promise.resolve().then(() => console.log("A")); //micro so before
+//   console.log("B"); //2a
+// };
+// console.log("C"); //1
+// run(); //2

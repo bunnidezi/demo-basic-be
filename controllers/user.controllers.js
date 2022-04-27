@@ -104,7 +104,6 @@ userController.deleteOwnerAccount = async (req, res, next) => {
   try {
     const { userId } = req;
     await User.findByIdAndUpdate(userId, { isDeleted: true });
-
     sendResponse(200, userId, "Delete single user success", res, next);
   } catch (error) {
     next(error);

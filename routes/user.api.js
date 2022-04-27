@@ -40,7 +40,6 @@ router.post("/login", loginWithEmailPassword);
  * @constructor: param userId
  */
 router.get("/:id", getSingleUserById);
-
 /**
  * @method: PUT
  * @access: public
