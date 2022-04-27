@@ -5,7 +5,10 @@ const {
   getAllUsersList,
   getSingleUserById,
   deleteUserById,
+  updateOwnerAccount,
+  deleteOwnerAccount,
 } = require("../controllers/user.controllers");
+const authentication = require("../middlewares/auth");
 
 const router = express.Router();
 
@@ -37,6 +40,14 @@ router.post("/login", loginWithEmailPassword);
  * @constructor: param userId
  */
 router.get("/:id", getSingleUserById);
+
+/**
+ * @method: PUT
+ * @access: public
+ * @description: Request for a user info with user id
+ * @constructor: param userId
+ */
+router.put("/", authentication, updateOwnerAccount);
 /**
  * @method: GET
  * @access: public
@@ -44,5 +55,5 @@ router.get("/:id", getSingleUserById);
  * @constructor: param userId
  */
 router.delete("/:id", deleteUserById);
-
+router.delete("/", authentication, deleteOwnerAccount);
 module.exports = router;

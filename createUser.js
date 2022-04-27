@@ -3,6 +3,8 @@ const User = require("./model/User");
 const { faker } = require("@faker-js/faker");
 
 const createUser = async (numberOfUser) => {
+  console.log("drop all user");
+  await User.collection.drop();
   for (let i = 0; i < numberOfUser; i++) {
     const salt = await bcrypt.genSalt(10);
     let password = faker.animal.cat();

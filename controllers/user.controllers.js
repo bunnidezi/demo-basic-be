@@ -11,6 +11,9 @@ userController.createUserByEmailPassword = async (req, res, next) => {
     }
     const found = await User.findOne({ email });
     if (found) {
+      if (found.isDeleted === true) {
+        throwException("Account has been deleted do you want to recover?", 400);
+      }
       throwException("User email already registered", 400);
     }
 
@@ -54,11 +57,14 @@ userController.getAllUsersList = async (req, res, next) => {
   page = parseInt(page) || 1;
   limit = parseInt(limit) || 10;
   const offset = limit * (page - 1);
-  const total = await User.countDocuments({});
+
+  const filterCondition = { isDeleted: false };
+
+  const total = await User.countDocuments(filterCondition);
   const totalPages = Math.ceil(total / limit);
 
   try {
-    const users = await User.find({}).skip(offset).limit(limit);
+    const users = await User.find(filterCondition).skip(offset).limit(limit);
     sendResponse(
       200,
       { users, total, totalPages },
@@ -74,7 +80,7 @@ userController.getAllUsersList = async (req, res, next) => {
 userController.getSingleUserById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const user = await User.findById(id);
+    const user = await User.findOne({ _id: id, isDeleted: false });
     if (!user) {
       throwException(`User with ${id} not found`, 400);
     }
@@ -87,14 +93,34 @@ userController.getSingleUserById = async (req, res, next) => {
 userController.deleteUserById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const user = await User.findById(id);
-    if (!user) {
-      throwException(`User with ${id} not found`, 400);
-    }
-    //delete
-    await User.findByIdAndDelete(id);
+    await User.findByIdAndUpdate(id, { isDeleted: true });
+    sendResponse(200, id, "Delete single user success", res, next);
+  } catch (error) {
+    next(error);
+  }
+};
 
-    sendResponse(200, {}, "Delete single user success", res, next);
+userController.deleteOwnerAccount = async (req, res, next) => {
+  try {
+    const { userId } = req;
+    await User.findByIdAndUpdate(userId, { isDeleted: true });
+
+    sendResponse(200, userId, "Delete single user success", res, next);
+  } catch (error) {
+    next(error);
+  }
+};
+
+userController.updateOwnerAccount = async (req, res, next) => {
+  try {
+    const { userId } = req;
+    const { name } = req.body;
+    if (!name) {
+      throwException("missing name", 400);
+    }
+    const data = await User.findByIdAndUpdate(userId, { name }, { new: true });
+
+    sendResponse(200, data, "update user success", res, next);
   } catch (error) {
     next(error);
   }

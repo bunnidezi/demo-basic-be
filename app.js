@@ -20,7 +20,7 @@ mongoose
   .connect("mongodb://localhost:27017/school")
   .then(() => {
     console.log(`Mongoose 27017 connected`);
-    createUser(50);
+    // createUser(50);
   })
   .catch((err) => console.log(err));
 
