@@ -1,0 +1,177 @@
+{
+  "client": "Thunder Client",
+  "collectionName": "school-api",
+  "dateExported": "2022-04-27T07:09:19.957Z",
+  "version": "1.1",
+  "folders": [],
+  "requests": [
+    {
+      "_id": "d288fafd-ce2f-4794-b21c-c16eefdf3f79",
+      "colId": "80afe00f-3b7a-4568-bd2c-e7665da2fa79",
+      "containerId": "",
+      "name": "Create user with email & password",
+      "url": "http://localhost:8000/api/users/create",
+      "method": "POST",
+      "sortNum": 10000,
+      "created": "2022-04-26T07:50:26.478Z",
+      "modified": "2022-04-26T08:00:28.351Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n    \"name\":\"Tuan\",\n    \"email\":\"tuan@gmail.com\",\n    \"password\":\"123abc\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "e292264e-9936-43af-87a2-bf40022e651e",
+      "colId": "80afe00f-3b7a-4568-bd2c-e7665da2fa79",
+      "containerId": "",
+      "name": "Login",
+      "url": "{{host}}/users/login",
+      "method": "POST",
+      "sortNum": 20000,
+      "created": "2022-04-26T08:49:38.610Z",
+      "modified": "2022-04-26T08:49:52.943Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n    \"name\":\"Tuan\",\n    \"email\":\"tuan@gmail.com\",\n    \"password\":\"123abc\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "9e9a618b-0075-4dae-8e30-fe5f268e3f43",
+      "colId": "80afe00f-3b7a-4568-bd2c-e7665da2fa79",
+      "containerId": "",
+      "name": "Test authentication",
+      "url": "{{host}}/students/protected",
+      "method": "GET",
+      "sortNum": 30000,
+      "created": "2022-04-26T09:25:39.911Z",
+      "modified": "2022-04-27T06:58:31.765Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjY4ZTk3OTM0M2JkZTcwNThjODg0MjYiLCJpYXQiOjE2NTEwNDI2OTMsImV4cCI6MTY1MTEyOTA5M30.gZeOzU8YF2aLnno96CNv9sFtpvcn2c9p-sgdVavpDwo"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n    \"name\":\"Tuan\",\n    \"email\":\"tuan@gmail.com\",\n    \"password\":\"123abc\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "ed88509c-255d-489e-a4f5-87a587a64629",
+      "colId": "80afe00f-3b7a-4568-bd2c-e7665da2fa79",
+      "containerId": "",
+      "name": "Get all user list",
+      "url": "{{host}}/users?page=50&limit=1",
+      "method": "GET",
+      "sortNum": 40000,
+      "created": "2022-04-27T03:40:53.774Z",
+      "modified": "2022-04-27T07:00:55.422Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjY3YzYxZTEwNzU4NWI3NzFiYjk3MjMiLCJpYXQiOjE2NTA5Njg1ODQsImV4cCI6MTY1MTA1NDk4NH0.ozhIKH4XcXcaaIkwjZv84Adu7os2IBdLn7aWncKG2mE",
+          "isDisabled": true
+        }
+      ],
+      "params": [
+        { "name": "page", "value": "50", "isPath": false },
+        { "name": "limit", "value": "1", "isPath": false }
+      ],
+      "tests": []
+    },
+    {
+      "_id": "750c3247-0b7a-42d2-be87-fe06f3bf4a1d",
+      "colId": "80afe00f-3b7a-4568-bd2c-e7665da2fa79",
+      "containerId": "",
+      "name": "Get single use",
+      "url": "{{host}}/users/6268e52fd066fcf75eac3697",
+      "method": "GET",
+      "sortNum": 50000,
+      "created": "2022-04-27T04:22:56.998Z",
+      "modified": "2022-04-27T06:43:25.127Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjY3YzYxZTEwNzU4NWI3NzFiYjk3MjMiLCJpYXQiOjE2NTA5Njg1ODQsImV4cCI6MTY1MTA1NDk4NH0.ozhIKH4XcXcaaIkwjZv84Adu7os2IBdLn7aWncKG2mE",
+          "isDisabled": true
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "0bb78ebb-9a57-48a8-a245-5930545894cb",
+      "colId": "80afe00f-3b7a-4568-bd2c-e7665da2fa79",
+      "containerId": "",
+      "name": "Delete user by id",
+      "url": "{{host}}/users/6268e52fd066fcf75eac3697",
+      "method": "DELETE",
+      "sortNum": 60000,
+      "created": "2022-04-27T04:34:33.326Z",
+      "modified": "2022-04-27T06:43:02.957Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjY3YzYxZTEwNzU4NWI3NzFiYjk3MjMiLCJpYXQiOjE2NTA5Njg1ODQsImV4cCI6MTY1MTA1NDk4NH0.ozhIKH4XcXcaaIkwjZv84Adu7os2IBdLn7aWncKG2mE",
+          "isDisabled": true
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "9e77a4b2-1f4b-43f6-8a94-ea7512c7e07e",
+      "colId": "80afe00f-3b7a-4568-bd2c-e7665da2fa79",
+      "containerId": "",
+      "name": "Update owner account",
+      "url": "{{host}}/users",
+      "method": "PUT",
+      "sortNum": 70000,
+      "created": "2022-04-27T06:55:31.427Z",
+      "modified": "2022-04-27T07:01:48.079Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjY4ZTk3OTM0M2JkZTcwNThjODg0MjYiLCJpYXQiOjE2NTEwNDI2OTMsImV4cCI6MTY1MTEyOTA5M30.gZeOzU8YF2aLnno96CNv9sFtpvcn2c9p-sgdVavpDwo"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n    \"name\":\"haha\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "c052a265-55ef-4a62-a77e-63645bce5764",
+      "colId": "80afe00f-3b7a-4568-bd2c-e7665da2fa79",
+      "containerId": "",
+      "name": "Delete own account",
+      "url": "{{host}}/users",
+      "method": "DELETE",
+      "sortNum": 80000,
+      "created": "2022-04-27T06:55:35.956Z",
+      "modified": "2022-04-27T07:06:06.812Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjY4ZTk3OTM0M2JkZTcwNThjODg0MjYiLCJpYXQiOjE2NTEwNDI2OTMsImV4cCI6MTY1MTEyOTA5M30.gZeOzU8YF2aLnno96CNv9sFtpvcn2c9p-sgdVavpDwo"
+        }
+      ],
+      "params": [],
+      "tests": []
+    }
+  ]
+}
