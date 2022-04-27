@@ -10,8 +10,6 @@ const userSchema = mongoose.Schema({
   isDeleted: { type: Boolean, default: false },
 });
 
-userSchema.plugin(require("./plugin/isDeletedFalse"));
-
 userSchema.methods.toJSON = function () {
   const obj = this._doc;
   delete obj.password;
